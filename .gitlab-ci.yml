@@ -1,27 +1,54 @@
-
-cache:
-  - key:
-    # files
-    # - test.txt
-    paths:
-      - .lib
 stages:
   - step1
   - step2
-job1:
+j1-1:
   stage: step1
   script:
-    - mkdir -p .lib
-    - echo test_job1 > .lib/test.txt
+    - mkdir -p .lib 
+    - echo $CI_COMMIT_REF_SLUG-$CI_JOB_STAGE > .lib/$CI_COMMIT_REF_SLUG-$CI_JOB_STAGE.txt
+  cache:
+    - key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+      paths:
+        - .lib
+      policy: pull
   tags:
     - docker
-  only:
-    - main
-job2:
-  stage: step2
-  script: cat .lib/test.txt
+j1-2:
+  stage: step1
+  script:
+    - cat .lib/$CI_COMMIT_REF_SLUG-$CI_JOB_STAGE.txt
+    - ls .lib/
+  cache:
+    - key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+      paths:
+        - .lib
   tags:
     - docker
+
+
+#cache:
+#  - key:
+#    # files
+#    # - test.txt
+#    paths:
+#      - .lib
+#stages:
+#  - step1
+#  - step2
+#job1:
+#  stage: step1
+#  script:
+#    - mkdir -p .lib
+#    - echo test_job1 > .lib/test.txt
+#  tags:
+#    - docker
+#  only:
+#    - main
+#job2:
+#  stage: step2
+#  script: cat .lib/test.txt
+#  tags:
+#    - docker
 
 
 #Testing:
