@@ -15,6 +15,8 @@ job1:
     - echo test_job1 > .lib/test.txt
   tags:
     - docker
+  only:
+    - main
 job2:
   stage: step2
   script: cat .lib/test.txt
