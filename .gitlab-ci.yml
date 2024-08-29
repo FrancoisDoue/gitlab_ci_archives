@@ -39,7 +39,7 @@ Testing:
   stage: test
   script:
     - apk add mariadb-client
-    - echo SHOW tables; | mysql -u root -p $MYSQL_ROOT_PASSWORD -h mysql ${MYSQL_DATABASE}
+    - echo "SHOW tables;" | mysql -u root -p "$MYSQL_ROOT_PASSWORD" -h mysql "${MYSQL_DATABASE}"
     - echo "CREATE TABLE test_table (field1 int);" | mysql -u root -p "$MYSQL_ROOT_PASSWORD" -h mysql "${MYSQL_DATABASE}"
     - echo "SHOW tables;" | mysql -u root -p "$MYSQL_ROOT_PASSWORD" -h mysql "${MYSQL_DATABASE}"
   tags: 
