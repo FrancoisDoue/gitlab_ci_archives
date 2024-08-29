@@ -1,3 +1,40 @@
+
+cache:
+  - key:
+    # files
+    # - test.txt
+    paths:
+      - .lib
+stages:
+  - step1
+  - step2
+job1:
+  stage: step1
+  script:
+    - mkdir -p .lib
+    - echo test_job1 > .lib/test.txt
+  tags:
+    - docker
+job2:
+  stage: step2
+  script: cat .lib/test.txt
+  tags:
+    - docker
+
+
+#Testing:
+#  stage: test
+#  image: debian:latest
+#  services:
+#    - name: nginx:latest
+#      alias: mynginx
+#  script:
+#    - apt update -qq 2>&1 >/dev/null && apt -qq install -y curl 2>&1 >/dev/null
+#    - curl mynginx
+#  tags:
+#  - docker
+
+
 #variables:
 #  POSTGRES_DB: postgres
 #  POSTGRES_USER: runner
@@ -45,17 +82,6 @@
 #  tags: 
 #    - docker
 
-Testing:
-  stage: test
-  image: debian:latest
-  services:
-    - name: nginx:latest
-      alias: mynginx
-  script:
-    - apt update -qq 2>&1 >/dev/null && apt -qq install -y curl 2>&1 >/dev/null
-    - curl mynginx
-  tags:
-  - docker
 #Testing:
 #  stage: test
 #  image: debian:latest
