@@ -13,8 +13,8 @@ j1-1:
       paths:
         - .lib
       policy: push
-  artifact:
-    - key:
+  artifacts:
+    - key: $CI_COMMIT_REF_SLUG-artifact
       path:
         - ./artifacts/file.txt
   tags:
