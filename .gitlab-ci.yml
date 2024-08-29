@@ -14,8 +14,9 @@ j1-1:
         - .lib
       policy: push
   artifact:
-    path:
-      - ./artifacts/file.txt
+    - key:
+      path:
+        - ./artifacts/file.txt
   tags:
     - docker
 j1-2:
