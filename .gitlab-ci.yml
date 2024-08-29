@@ -10,7 +10,7 @@ j1-1:
     - key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
       paths:
         - .lib
-      policy: pull
+      policy: push
   tags:
     - docker
 j1-2:
