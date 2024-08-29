@@ -14,9 +14,8 @@ j1-1:
         - .lib
       policy: push
   artifacts:
-    - key: $CI_COMMIT_REF_SLUG-artifact
-      path:
-        - ./artifacts/file.txt
+    paths:
+      - ./artifacts/file.txt
   tags:
     - docker
 j1-2:
