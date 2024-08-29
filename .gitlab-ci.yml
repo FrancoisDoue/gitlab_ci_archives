@@ -4,7 +4,8 @@ stages:
 j1-1:
   stage: step1
   script:
-    - mkdir -p .lib 
+    - mkdir -p .lib
+    - mkdir -p artifacts
     - echo $CI_COMMIT_REF_SLUG-$CI_JOB_STAGE > .lib/$CI_COMMIT_REF_SLUG-$CI_JOB_STAGE.txt
     - echo "j1-1 - OK" > ./artifacts/file.txt
   cache:
@@ -14,7 +15,7 @@ j1-1:
       policy: push
   artifact:
     path:
-      - ./artifact.file.txt
+      - ./artifacts/file.txt
   tags:
     - docker
 j1-2:
@@ -26,9 +27,6 @@ j1-2:
     - key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
       paths:
         - .lib
-  artifact:
-    path:
-      - ./artifact.file.txt
   tags:
     - docker
 
