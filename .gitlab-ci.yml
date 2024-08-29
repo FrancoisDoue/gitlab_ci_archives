@@ -1,14 +1,32 @@
+#stages:
+#  - triggers
+#caseAjob:
+#  stage: triggers
+#  trigger:
+#    include: caseA/.gitlab-ci.yml
+#caseBjob:
+#  stage: triggers
+#  needs: [caseAjob]
+#  trigger:
+#    include: caseB/.gitlab-ci.yml
+
+variables:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_HOST_AUTH_METHOD: trust
 stages:
-  - triggers
-caseAjob:
-  stage: triggers
-  trigger:
-    include: caseA/.gitlab-ci.yml
-caseBjob:
-  stage: triggers
-  needs: [caseAjob]
-  trigger:
-    include: caseB/.gitlab-ci.yml
+  - test
+Testing:
+  stage: test
+  image: debian:latest
+  services:
+    - postgres
+  script:
+    - apt update && apt install -y postgresql-client
+    - PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h postgres -d $POSTGRES_DB -c "\l"
+  tags:
+  - docker
 
 #stages:
 #    - stage1
