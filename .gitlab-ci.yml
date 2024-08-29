@@ -1,27 +1,48 @@
-variables:
-  POSTGRES_DB: postgres
-  POSTGRES_USER: runner
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_HOST_AUTH_METHOD: trust
-stages:
-  - test
+#variables:
+#  POSTGRES_DB: postgres
+#  POSTGRES_USER: runner
+#  POSTGRES_PASSWORD: postgres
+#  POSTGRES_HOST_AUTH_METHOD: trust
+#stages:
+#  - test
+#
+#Testing:
+#  stage: test
+#  image: alpine:latest
+#  services:
+#    - name: postgres:15.2-alpine3.17
+#      alias: mydb1
+#    - name: postgres:11.16-stretch
+#      alias: mydb2
+#    - name: postgres:13.10-alpine
+#      alias: mydb3
+#  script:
+#    - apk add postgresql
+#    - PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h mydb1 -d postgres -c "SELECT version();"
+#    - PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h mydb2 -d postgres -c "SELECT version();"
+#    - PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h mydb3 -d postgres -c "SELECT version();"
+#  tags:
+#    - docker
 
+variables:
+  MYSQL_DATABASE: "db_name"
+  MYSQL_ROOT_PASSWORD: "dbpass"
+  MYSQL_USER: "username"
+  MYSQL_PASSWORD: "dbpass"
+  MYSQL_HOST: mysql
+stages:    
+  - test
 Testing:
-  stage: test
   image: alpine:latest
   services:
-    - name: postgres:15.2-alpine3.17
-      alias: mydb1
-    - name: postgres:11.16-stretch
-      alias: mydb2
-    - name: postgres:13.10-alpine
-      alias: mydb3
+    - mysql
+  stage: test
   script:
-    - apk add postgresql
-    - PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h mydb1 -d postgres -c "SELECT version();"
-    - PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h mydb2 -d postgres -c "SELECT version();"
-    - PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -h mydb3 -d postgres -c "SELECT version();"
-  tags:
+    - apk add mariadb-client
+    - echo "SHOW tables;" | mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h mysql "${MYSQL_DATABASE}"
+    - echo "CREATE TABLE test_table (field1 int);" | mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h mysql "${MYSQL_DATABASE}"
+    - echo "SHOW tables;" | mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h mysql "${MYSQL_DATABASE}"
+  tags: 
     - docker
 #Testing:
 #  stage: test
