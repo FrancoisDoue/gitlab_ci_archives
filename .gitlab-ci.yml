@@ -24,26 +24,38 @@
 #  tags:
 #    - docker
 
-variables:
-  MYSQL_DATABASE: "db_name"
-  MYSQL_ROOT_PASSWORD: "dbpass"
-  MYSQL_USER: "username"
-  MYSQL_PASSWORD: "dbpass"
-  MYSQL_HOST: mysql
-stages:    
-  - test
+#variables:
+#  MYSQL_DATABASE: "db_name"
+#  MYSQL_ROOT_PASSWORD: "dbpass"
+#  MYSQL_USER: "username"
+#  MYSQL_PASSWORD: "dbpass"
+#  MYSQL_HOST: mysql
+#stages:    
+#  - test
+#Testing:
+#  image: alpine:latest
+#  services:
+#    - mysql
+#  stage: test
+#  script:
+#    - apk add mariadb-client
+#    - echo "SHOW tables;" | mariadb -u root -p ${MYSQL_ROOT_PASSWORD} -h mysql -D ${MYSQL_DATABASE}
+#    - echo "CREATE TABLE test_table (field1 int);" | mariadb -u root -p "$MYSQL_ROOT_PASSWORD" -h mysql -D ${MYSQL_DATABASE}
+#    - echo "SHOW tables;" | mariadb -u root -p ${MYSQL_ROOT_PASSWORD} -h mysql -D ${MYSQL_DATABASE}
+#  tags: 
+#    - docker
+
 Testing:
-  image: alpine:latest
-  services:
-    - mysql
   stage: test
+  image: debian:latest
+  services:
+    - name: nginx:latest
+      alias: mynginx
   script:
-    - apk add mariadb-client
-    - echo "SHOW tables;" | mariadb -u root -p ${MYSQL_ROOT_PASSWORD} -h mysql -D ${MYSQL_DATABASE}
-    - echo "CREATE TABLE test_table (field1 int);" | mariadb -u root -p "$MYSQL_ROOT_PASSWORD" -h mysql -D ${MYSQL_DATABASE}
-    - echo "SHOW tables;" | mariadb -u root -p ${MYSQL_ROOT_PASSWORD} -h mysql -D ${MYSQL_DATABASE}
-  tags: 
-    - docker
+    - apt update -qq 2>&1 >/dev/null && apt -qq install -y curl 2>&1 >/dev/null
+    - curl mynginx
+  tags:
+  - docker
 #Testing:
 #  stage: test
 #  image: debian:latest
