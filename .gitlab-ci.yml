@@ -6,11 +6,15 @@ j1-1:
   script:
     - mkdir -p .lib 
     - echo $CI_COMMIT_REF_SLUG-$CI_JOB_STAGE > .lib/$CI_COMMIT_REF_SLUG-$CI_JOB_STAGE.txt
+    - echo "j1-1 - OK" > ./artifacts/file.txt
   cache:
     - key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
       paths:
         - .lib
       policy: push
+  artifact:
+    path:
+      - ./artifact.file.txt
   tags:
     - docker
 j1-2:
@@ -22,6 +26,9 @@ j1-2:
     - key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
       paths:
         - .lib
+  artifact:
+    path:
+      - ./artifact.file.txt
   tags:
     - docker
 
