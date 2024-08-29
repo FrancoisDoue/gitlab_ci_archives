@@ -1,0 +1,18 @@
+stages:
+  - stage1
+  - stage2
+  - stage3
+job1:
+  stage: stage1
+  script:
+    - echo "caseA - job1"
+job2:
+  stage: stage2
+  needs: [job1]
+  script:
+    - echo "caseA - job2"
+job3:
+  stage: stage3
+  needs: [job2]
+  script:
+    - echo "caseA - job3"
